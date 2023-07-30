@@ -1,0 +1,51 @@
+header{
+    color: blue;
+}
+body{
+    background-color: coral;
+    color: green;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+.left{
+    text-align: left;
+    color:blue;
+
+}
+.center{
+    text-align: center;
+    text-decoration: underline;
+    color:black;
+}
+.right{
+    text-align: right;
+    text-decoration: overline;
+    color:red;
+}
+#id1{
+    color:orange;
+    text-decoration: underline;
+}
+#c1{
+    cursor: crosshair;
+}
+#c2{
+    cursor:pointer;
+}
+#c3{
+    cursor: grabbing;
+}
+#c4{
+    cursor: vertical-text;
+}
+#c5{
+    cursor: wait;
+}
+#c6{
+    cursor: help;
+}
+a:link{
+    color:red;
+}
+a:hover{
+    color:aquamarine;
+}
