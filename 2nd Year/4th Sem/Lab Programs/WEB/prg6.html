@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>Country Capitals</title>
+    </head>
+    <body>
+        <script>
+            function display(){
+                var a=document.getElementById("box1").value;
+                document.getElementById("box2").value=a;
+            }
+        </script>
+        <br>
+        <br>
+        <u><h1>COUNTRIES AND CAPITALS</h1></u>
+        <form class="one">
+            <select id="box1" onclick="display()">
+                <option value="">Select country</option>
+                <option value="NEW DELHI">INDIA</option>
+                <option value="CANBERRA">AUSTRALIA</option>
+                <option value="WASHINGTON D.C">UNITED STATES OF AMERICA</option>
+                <option value="LONDON">UNITED KINGDOM</option>
+                <option value="BERLIN">GERMANY</option>
+            </select>
+            <br>
+            <br>
+            <input type="text" id="box2" placeholder="Capital of Country">
+        </form>
+    </body>
+    <style>
+body{
+    text-align:center; 
+    background-color: aquamarine;
+}
+h1{
+    color: blue;
+    font-size: 85;
+}
+.one{
+    margin:150px;
+    padding:10px;
+}
+#box1{
+    color:darkgreen;
+    padding:20px;
+    font-style:bold;
+    border-color:black;
+    font-size: 50;
+}
+#box2{
+    color:darkgreen;
+    padding:20px;
+    font-style:bold;
+    border-color:black;
+    font-size: 45;
+}
+    </style>
+</html>
