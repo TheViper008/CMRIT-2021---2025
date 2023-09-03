@@ -33,7 +33,7 @@ sheet['G'+str(row)]=Avg
 wb.save('sample.xlsx')
 wb.close()
 #reopening to check whether record is appended/written to the workbook
-wb = openpyxl.load_workbook('4thsem2021.xlsx',data_only=True)
+wb = openpyxl.load_workbook('sample.xlsx',data_only=True)
 #data_only is required to read only the cell value and not the formula
 sheet = wb['IAT-Marks-Average']
 #we can open active sheet by default : sheet = wb.active
