@@ -1,0 +1,93 @@
+
+<html>
+<head>
+ <title>Registration Form</title>
+ <style>
+ body {
+ background-color: skyblue;
+ }
+ </style>
+ <script>
+ function validateForm() {
+ var firstname = 
+document.getElementById('firstname').value;
+ var lastname = 
+document.getElementById('lastname').value;
+ var email = 
+document.getElementById('email').value;
+ var password = 
+document.getElementById('password').value;
+ var address = 
+document.getElementById('address').value;
+ var mobileno = 
+document.getElementById('mobileno').value;
+ if (firstname.length < 6 || !/^[a-zA-Z]+$/.test(firstname)) {
+ alert("First Name should be at least 6 letters long and contain only alphabets.");
+ return false;
+ }
+var firstname = 
+document.getElementById('firstname').value;
+ var lastname = 
+document.getElementById('lastname').value;
+ var email = 
+document.getElementById('email').value;
+ var password = 
+document.getElementById('password').value;
+ var address = 
+document.getElementById('address').value;
+ var mobileno = 
+document.getElementById('mobileno').value;
+if (!lastname.trim()) {
+ alert("Last Name cannot be empty.");
+ return false;
+ }
+ if (!/^[0-9a-zA-Z]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email)) {
+alert("Invalid Email format. Please use name@domain.com");
+ return false;
+ }
+ if (password.length < 6) {
+ alert("Password should be at least 6 characters long.");
+ return false;
+ }
+ if (!address.trim()) {
+ alert("Address cannot be empty.");
+ return false;
+ }
+ if (!/^\d{10}$/.test(mobileno)) {
+ alert("Mobile Number should contain 10 digits only.");
+ return false;
+ }
+return true;
+ }
+ </script>
+</head>
+<body>
+ <h2>Registration Form</h2>
+ <form onsubmit='return validateForm()' 
+action="right.html">
+ First Name (Minimum 6 characters):
+<input type='text' id='firstname' /><br 
+/><br />
+ Last Name:
+ <input type='text' id='lastname' /><br 
+/><br />
+ Email Address:
+ <input type='text' id='email' /><br /><br />
+ Password (Minimum 6 characters):
+ <input type='password' id='password' 
+/><br /><br />
+ Address:
+ <textarea rows="2" cols="20" id='address' 
+></textarea><br /><br />
+ Mobile No (10 digits):
+ <input type='text' id='mobileno' /><br 
+/><br />
+ Gender:
+ <input type='radio' name="gender" 
+value="male"> Male
+ <input type='radio' name="gender" 
+value="female"> Female<br /><br />
+ <input type='submit' value='Submit' />
+ <input type='reset' value='Reset' />
+ </form>
+</body> </html>
