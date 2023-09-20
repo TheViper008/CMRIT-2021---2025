@@ -1,8 +1,9 @@
 import openpyxl, pprint
 print('Opening workbook...')
 wb = openpyxl.load_workbook('sample.xlsx',data_only=True)
-#data_only is required to read only the cell value and not the formula
-sheet = wb['IAT-Marks-Average']
+
+sheet = wb['Sheet1']
+row = 1
 print('Reading rows...')
 for row in range(1, sheet.max_row + 1):
     USN = sheet['A' + str(row)].value
@@ -17,7 +18,7 @@ for row in range(1, sheet.max_row + 1):
 
 row+=1
 USN=input("Enter USN : ")
-Name=input("Eter Name : ")
+Name=input("Enter Name : ")
 IAT1=int(input("Enter marks in IAT1 : "))
 IAT2=int(input("Enter marks in IAT2 : "))
 IAT3=int(input("Enter marks in IAT3 : "))
@@ -32,11 +33,11 @@ sheet['F'+str(row)]=Total
 sheet['G'+str(row)]=Avg
 wb.save('sample.xlsx')
 wb.close()
-#reopening to check whether record is appended/written to the workbook
+
 wb = openpyxl.load_workbook('sample.xlsx',data_only=True)
-#data_only is required to read only the cell value and not the formula
-sheet = wb['IAT-Marks-Average']
-#we can open active sheet by default : sheet = wb.active
+
+sheet = wb['Sheet1']
+
 print('Reading rows...')
 for row in range(1, sheet.max_row + 1):
     USN = sheet['A' + str(row)].value
