@@ -3,8 +3,8 @@
 from PyPDF2 import PdfWriter, PdfReader
 
 num = int(input("Enter page number you want combine from multiple documents "))
-pdf1 = open('Birds_1.pdf', 'rb')
-pdf2 = open('Birds_2.pdf', 'rb')
+pdf1 = open('pdf1.pdf', 'rb')
+pdf2 = open('pdf2.pdf', 'rb')
 
 pdf_writer = PdfWriter()
 
@@ -18,3 +18,5 @@ pdf_writer.add_page(page)
 
 with open('output_file.pdf', 'wb') as output:
     pdf_writer.write(output)
+
+print("Done!")
