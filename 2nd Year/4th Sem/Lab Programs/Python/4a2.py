@@ -16,7 +16,7 @@ def merge_sort(nlist):
         else:
             nlist[k] = righthalf[j]
             j = j+ 1
-            k = k+1
+        k = k+1
     while i <len(lefthalf):
             nlist[k] = lefthalf[i]
             i = i+1
