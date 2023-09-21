@@ -3,7 +3,7 @@ def bintodec(n):
     p = 0 
     while(n!=0):
         rem = n %10
-        d = d + (rem*2)**p
+        d = d + rem * (2**p)
         p = p+ 1
         n = n//10
     return d
