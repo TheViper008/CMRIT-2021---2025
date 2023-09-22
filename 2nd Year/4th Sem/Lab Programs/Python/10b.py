@@ -1,14 +1,25 @@
-# Write a python program to fetch current weather data from the JSON file
+import requests, json
 
-import json
-
-with open('weather_data.json') as f:
-    weather_data = json.load(f)
-
-current_temp = weather_data['main']['temp']
-humidity = weather_data ['main']['humidity']
-weather_desc = weather_data ['weather'][0]['description']
-
-print(f"Current temperature: {current_temp}°C")
-print(f"Humidity: {humidity}%")
-print(f"Weather description: {weather_desc}")
+api_key = "26e0824af102294158bdd0f23c9d8e10"
+base_url = "http://api.openweathermap.org/data/2.5/weather?"
+city_name = input("Enter city name : ")
+complete_url = base_url + "appid=" + api_key + "&q=" + city_name
+response = requests.get(complete_url)
+x = response.json()
+if x["cod"] != "404":
+    y = x["main"]
+    current_temperature = y["temp"]
+    current_pressure = y["pressure"]
+    current_humidity = y["humidity"]
+    z = x["weather"]
+    weather_description = z[0]["description"]
+    print(" Temperature (in kelvin unit) = " +
+          str(current_temperature) +
+          "\n atmospheric pressure (in hPa unit) = " +
+          str(current_pressure) +
+          "\n humidity (in percentage) = " +
+          str(current_humidity) +
+          "\n description = " +
+          str(weather_description))
+else:
+    print(" City Not Found ")
