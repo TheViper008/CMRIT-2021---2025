@@ -25,7 +25,7 @@
             var mobileno =
                 document.getElementById('mobileno').value;
 
-            if (firstname.trim().length < 6 || !/^[a-zA-Z]+$/.trim().test(firstname)) {
+            if (firstname.trim().length < 6 || !/^[a-zA-Z]+$/.test(firstname)) {
                 alert("First name should contain 6 letters and should contain only letters");
                 return false;
             }
@@ -74,7 +74,7 @@
         Mobile No: <input type="text" id="mobileno">
         <br>
         <br>
-        Gender: <input type="radio" value="male" name="gender">Male
+        Gender: <input type="radio" value="male" name="gender" required>Male
         <input type="radio" value="female" name="gender">Female
         <br>
         <br>
