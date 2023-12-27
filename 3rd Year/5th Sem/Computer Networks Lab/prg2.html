@@ -1,0 +1,56 @@
+<html>
+<head>
+    <script src="angular.min.js"></script>
+</head>
+<body ng-app="myApp2">
+    <h1>Shopping Application</h1>
+    <div ng-controller="Shopping">
+        <ol>
+            <li ng-repeat ="items in Shoppingitems">{{items}}</li>
+        </ol>
+        <br>
+        Enter the items to add: <input type="text" id="item_name" ng-model="new_item">
+        <input type="button" value="Add" ng-click="addItem()"><br><br>
+
+        Select an item to remove:
+        <select ng-model="selected_item" id="selected_item_name" ng-options="items for items in Shoppingitems"></select>
+        <input type="button" value="Remove" ng-click="removeitem()"><br><br>
+    </div>
+<html>
+</body>
+<script>
+    var v2 = angular.module("myApp2",[]);
+    v2.controller("Shopping",function($scope){
+        $scope.Shoppingitems = ["Banana","Maggi","Daal","Carrot"];
+        
+        $scope.addItem = function(){
+            if($scope.new_item && $scope.Shoppingitems.indexOf($scope.new_item) == -1){
+                $scope.Shoppingitems.push($scope.new_item);   //push() add an item in to a list 
+                $scope.new_item ="";
+            }
+            else
+            {
+                if($scope.new_item)
+                {
+                    alert("This item already exist in your shopping cart");
+                }
+                else
+                {
+                    alert("Please enter an item to add");
+                }
+            }
+        }
+        $scope.removeitem = function(){
+            if($scope.Shoppingitems.indexOf($scope.selected_item) == -1)
+            {
+                alert("Please select an item to remove");
+            }
+            else
+            {
+                var index = $scope.Shoppingitems.indexOf($scope.selected_item);
+                $scope.Shoppingitems.splice(index,1);   //splice() is used to remove an item from the array
+                $scope.selected_item ="";
+            }
+        }
+    });
+</script>

@@ -1,0 +1,24 @@
+<html>
+    <title>Program 1</title>
+    <head>
+        <script src="angular.min.js">
+        </script>
+
+        <script>
+            var app = angular.module("myApp",[]);
+            app.controller("myCntrl",function($scope){
+                $scope.firstName="Whyrat"
+                $scope.lastName="Koli"
+            });
+        </script>
+    </head>
+
+    <body ng-app="myApp">
+        <h2>Angular JS Application to Display Full Name</h2>
+        <div ng-controller="myCntrl">
+            Enter First Name: <input type="text" ng-model="firstName"><br/>
+            Enter Last Name: <input type="text" ng-model="lastName"><br/>
+            Your Full Name: {{ firstName + " " + lastName }}
+        </div>
+    </body>
+</html>
