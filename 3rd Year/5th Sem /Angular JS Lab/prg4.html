@@ -1,0 +1,50 @@
+<html>
+<head>
+    <script src="angular.min.js"></script>
+    <title>Factoral and Square</title>
+</head>
+
+<body ng-app="myApp4">
+    <h1>Square and Factorial</h1>
+    <div ng-controller="show">
+        <h2>Enter number to perform operation<br>
+        <input type="text" ng-model="num"><br><br>
+        <input type="button" value="Factorial" ng-click="fact()">
+        <input type="button" value="Square" ng-click="sqr()"></h2>
+        <h2> {{ans}} </h2>
+
+    </div>
+
+</body>
+<script>
+     var v = angular.module("myApp4", [])
+    v.controller('show', function ($scope) {
+
+        $scope.sqr = function() {
+            if ($scope.num == null) {
+                alert("Please enter a number")
+                return false
+            } else {
+                $scope.ans = "Square is " + ($scope.num * $scope.num)              
+            }
+        }
+        $scope.fact = function() {
+            if($scope.num == null){
+                alert("Please enter a number")
+                return false
+            }
+            else if ($scope.num < 0|| $scope.num.includes(".")) {
+                $scope.ans =  $scope.num + "! is " + "undefined"
+            } 
+            else {
+                cal = 1
+                for (var i = 1; i <= $scope.num; i++) {
+                    cal = cal * i;
+                }
+                $scope.ans = "Factorial is " + cal
+            }
+        }
+    })
+</script>
+
+</html>

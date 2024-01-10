@@ -1,0 +1,54 @@
+<html >
+<head>
+    <h3>Simple Calculator</h3>
+    <br>
+    <script src="angular.min.js"></script>
+    <title>Calculator</title>
+</head>
+<body ng-app="myApp1">
+    <div ng-controller="show">
+        <label>Enter the First Number: </label>
+        <input type="text" ng-model="num1"><br><br>
+        <label>Enter the Second Number: </label>
+        <input type="text" ng-model="num2"><br><br>
+        Select an Operator
+        <select  ng-model="opr">
+            <option value="+">Add</option>
+            <option value="-">Subtract</option>
+            <option value="*">Multiply</option>
+            <option value="/">Divide</option>
+        </select>
+        <input type="button" value="Calculate" ng-click="calc()">
+        <h2>The result is {{ans}}</h2>
+    </div>
+   
+</body>
+<script>
+    var v =angular.module("myApp1",[])
+    v.controller('show',function($scope){
+     
+     
+     $scope.calc=()=>{
+        if($scope.num1==null){
+            alert("Please Enter in first No")
+        }
+        else if($scope.num2==null){
+            alert("Please Enter in second No")
+        }
+        else if($scope.opr==null){
+            alert("Please Enter in operator No")
+        }
+        else{
+            if($scope.num2==0 && $scope.opr=='/'){
+                alert("The num cannot divided by 0")
+            }else{
+                $scope.ans=$scope.num1+" "+ $scope.opr+" "+$scope.num2+" ="+eval($scope.num1+$scope.opr+$scope.num2).toFixed(2)
+             
+            }
+           
+        }
+    }
+   
+    })
+</script>
+</html>

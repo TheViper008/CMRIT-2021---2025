@@ -1,0 +1,81 @@
+<html>
+
+<head>
+    <script src="angular.min.js"></script>
+    <title>To-Do List</title>
+</head>
+
+<body ng-app="myApp6">
+    <div ng-controller="show">
+        <h3>Enter your today plan</h3>
+        <input type="text" ng-model="newtodo">
+        <input type="button" value="Add" ng-click="add()">
+        <h2>TO-DO LIST</h2>
+        <ul>
+            <li ng-repeat="list in todo">
+                <span ng-show="!list.EDITING">{{list.TITLE}}</span>
+                <input ng-show="list.EDITING" ng-model="list.TITLE" ng-blur="turnOffEditing(list)">
+                <input type="button" value="Edit" ng-click="edit(list)">
+                <input type="button" value="Delete" ng-click="del(list)">
+            </li>
+        </ul>
+    </div>
+
+</body>
+<script>
+    var v = angular.module("myApp6", [])
+    v.controller('show', function ($scope) {
+
+        $scope.todo = [
+            {
+                "TITLE": "Brush my teeth",
+                "COMPLETED": true,
+                "EDITING": false
+            },
+            {
+                "TITLE": "Eat breakfast",
+                "COMPLETED": false,
+                "EDITING": false
+            }
+        ]
+        $scope.add = () => {
+            if ($scope.newtodo && $scope.todo.indexOf($scope.newtodo) == -1) {
+                var list = {
+
+                    "TITLE": $scope.newtodo,
+                    "COMPLETED": false,
+                    "EDITING": false
+                }
+                $scope.todo.push(list)
+                $scope.newtodo = ""
+            }
+ 
+            else {
+                alert("Please Enter some value")
+            }
+        }
+        $scope.del = () => {
+            var cnf = confirm("Do you want to delete the record")
+         
+            if (cnf == true) {
+                var remItem = $scope.todo.indexOf($scope.item);
+
+                $scope.todo.splice(remItem, 1);
+            }
+
+        }
+
+        $scope.edit = (list) => {
+            list.EDITING = (list) => {
+                list.EDITING = true;
+            }
+            $scope.turnOffEditing = (list) => {
+                list.EDITING = false;
+            }
+        }
+
+
+    })
+</script>
+
+</html>
