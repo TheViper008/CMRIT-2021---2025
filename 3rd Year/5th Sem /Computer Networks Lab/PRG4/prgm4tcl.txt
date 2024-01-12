@@ -37,8 +37,8 @@ set tcp2 [new Agent/TCP]
 $ns attach-agent $n2 $tcp2
 set ftp2 [new Application/FTP]
 $ftp2 attach-agent $tcp2 
-$ftp0 set packetSize_ 600
-$ftp0 set interval_ 0.001
+$ftp2 set packetSize_ 600
+$ftp2 set interval_ 0.001
 set sink3 [new Agent/TCPSink]
 $ns attach-agent $n3 $sink3
 
