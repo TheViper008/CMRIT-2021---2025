@@ -47,7 +47,7 @@ class CRC
 	
 				else
 					r[j]=xor(r[j],g[k]);
-					k++;
+				k++;
 			}
 			r[m+i]=d[m+i];
 		}
