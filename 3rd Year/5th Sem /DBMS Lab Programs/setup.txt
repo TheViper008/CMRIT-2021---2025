@@ -1,0 +1,21 @@
+Open Terminal and tyoe the following:
+
+cd /opt/lampp
+ls
+
+-> check for manager-linux-x64.run
+
+sudo ./manager-linux-x64.run
+password: exam@cse
+
+-> a window opens 
+-> go to manager services - MySQL Database - Start
+-> Ctrl + Z
+
+cd bin
+sudo ./mysql -u root
+
+show databases;
+
+create databaseName;
+use databaseName;
