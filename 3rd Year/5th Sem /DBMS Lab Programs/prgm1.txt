@@ -1,0 +1,94 @@
+//Creating Tables
+
+create table ACTOR(Act_id int primary key, Act_Name varchar(40), Act_gender char);
+
+create table DIRECTOR(Dir_id int primary key,Dir_Name varchar(20),Dir_Phone int);
+
+create table MOVIES(Mov_id int primary key, Mov_Title varchar(40), Movie_Year int(4), Movie_Lang varchar(40) , Dir_id int, foreign key (Dir_id) references DIRECTOR(Dir_id));
+
+create table MOVIE_CAST(Act_id int, Mov_id int, Role varchar(40), primary key (Act_id, Mov_id), foreign key(Act_id) references ACTOR(Act_id), foreign key(Mov_id) references MOVIES(Mov_id));
+
+create table RATING(Mov_id int, Rev_stars int, primary key(Mov_id), foreign key(Mov_id) references MOVIES(Mov_id));
+
+
+//Inserting values
+
+INSERT INTO ACTOR VALUES (1001, 'Tom Cruise', 'M'), (1002, 'Chris Hemsworth', 'M'), (1003, 'Angelina Jolie', 'F'), (1004, 'Margot Robbie', 'F'), (1005, 'Kate Winslet', 'F'), (1006, 'Robert Downey', 'M');
+
+INSERT INTO DIRECTOR VALUES (9001, 'Hitchcock', '987456215'), (9002, 'Steven Spielberg', '974560054'), (9003, 'Joseph Levitan', '987452178'), (9004, 'Christopher Loyd', '987456444'), (9005, 'Yash Chopra', '987456294'), (9006, 'Tom Jones', '987453154');
+
+INSERT INTO MOVIES VALUES (101, 'Iron Man', 2014, 'English', 9001), (102, 'Prosperity', 2001, 'Spanish', 9001), (103, 'Spiderman', 1998, 'English', 9002), (104, 'Star Wars', 1999, 'English', 9003), (105, 'Thor', 2017, 'English', 9002), (106, 'Captain America', 1994, 'English', 9004);
+
+INSERT INTO MOVIE_CAST VALUES (1001, 101, 'Joey'), (1001, 102, 'Conor'), (1001, 103, 'Jack'), (1002, 102, 'Tim'), (1002, 104, 'Josh'), (1002, 106, 'Craft'), (1004, 104, 'Claire'), (1005, 106, 'Jo'), (1006, 103, 'Kate'), (1006, 105, 'Sally');
+
+INSERT INTO RATING VALUES (101, 4), (102, 3), (103, 5), (104, 2), (105, 4), (106, 3);
+
+//Queries
+
+// 1. List the titles of all movies directed by ‘Hitchcock’.
+
+select Mov_id,Mov_Title from MOVIES M,DIRECTOR D where M.Dir_id = D.Dir_id and D.Dir_Name = "HITCHCOCK";
+
++--------+------------+
+| Mov_id | Mov_Title  |
++--------+------------+
+|    101 | Iron Man   |
+|    102 | Prosperity |
++--------+------------+
+
+// 2. Find the movie names where one or more actors acted in two or more movies.
+
+SELECT DISTINCT M.MOV_TITLE, C.ACT_ID FROM MOVIES M, MOVIE_CAST C WHERE M.MOV_ID=C.MOV_ID AND C.ACT_ID IN (SELECT ACT_ID FROM MOVIE_CAST GROUP BY ACT_ID HAVING COUNT(MOV_ID)>=2);
+
++-----------------+--------+
+| MOV_TITLE       | ACT_ID |
++-----------------+--------+
+| Iron Man        |   1001 |
+| Prosperity      |   1001 |
+| Prosperity      |   1002 |
+| Spiderman       |   1001 |
+| Spiderman       |   1006 |
+| Star Wars       |   1002 |
+| Thor            |   1006 |
+| Captain America |   1002 |
++-----------------+--------+
+
+// 3. List all actors who acted in a movie before 2000 and also in a movie after 2015.
+
+ select * from(select a.Act_Name from ACTOR a, MOVIES m,MOVIE_CAST mc where a.Act_id=mc.Act_id and mc.Mov_id=m.Mov_id AND m.Movie_Year < 2000) T1 NATURAL JOIN (select a.Act_name from ACTOR a,MOVIES m,MOVIE_CAST mc where a.Act_id=mc.Act_id and mc.Mov_id=m.Mov_id and m.Movie_Year > 2015) T2;
+
++---------------+
+| Act_Name      |
++---------------+
+| Robert Downey |
++---------------+
+
+// 4. Find the title of movies and number of stars for each movie that has at least one rating and find the highest number of stars that movie received. Sort the result by movie title.
+
+SELECT M.Mov_Title, MAX(R.Rev_Star) AS Max_Stars FROM MOVIES M JOIN RATING R ON M.Mov_id = R.Mov_id JOIN MOVIE_CAST MC ON M.Mov_id = MC.Mov_id WHERE R.Rev_Star > 0 GROUP BY M.Mov_Title ORDER BY M.Mov_Title;
+
++-----------------+-----------+
+| Mov_Title       | Max_Stars |
++-----------------+-----------+
+| Captain America |         3 |
+| Iron Man        |         4 |
+| Prosperity      |         3 |
+| Spiderman       |         5 |
+| Star Wars       |         2 |
+| Thor            |         4 |
++-----------------+-----------+
+
+// 5. Update rating of all movies directed by ‘Steven Spielberg’ to 5.
+
+ update RATING set Rev_star=5 where Mov_id in (select Mov_id from MOVIES m,DIRECTOR d where d.Dir_id=m.Dir_id AND Dir_Name="Steven Spielberg");
+
+ +--------+----------+
+| Mov_id | Rev_Star |
++--------+----------+
+|    101 |        4 |
+|    102 |        3 |
+|    103 |        5 |
+|    104 |        2 |
+|    105 |        5 |
+|    106 |        3 |
++--------+----------+
