@@ -19,3 +19,6 @@ show databases;
 
 create database databaseName;
 use databaseName;
+
+
+**PRO TIP** -> Use all small caps
