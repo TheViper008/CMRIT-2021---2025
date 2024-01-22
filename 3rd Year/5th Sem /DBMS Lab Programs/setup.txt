@@ -17,5 +17,5 @@ sudo ./mysql -u root
 
 show databases;
 
-create databaseName;
+create database databaseName;
 use databaseName;
