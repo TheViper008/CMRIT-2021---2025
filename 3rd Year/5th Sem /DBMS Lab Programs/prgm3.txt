@@ -1,0 +1,86 @@
+COMPANY DATABASE
+
+//Creating Tables
+
+create table DEPARTMENT (Dno int primary key, DName varchar(40), MgrSSN int, MgrStartDate date,foreign key(MgrSSN) references EMPLOYEE(SSN);;
+
+create table EMPLOYEE(SSN int primary key, Name varchar(40), Address varchar(50), Sex char, Salary int, SuperSSN int, DNo int, foreign key(SuperSSN) references EMPLOYEE(SSN), foreign key(DNo) references DEPARTMENT(DNo));
+
+create table DLOCATION (DNo int, DLoc varchar(50), primary key(DNo,DLoc), foreign key(DNo) references DEPARTMENT(DNo));
+
+create table PROJECT (PNo int primary key, PName varchar(50), PLocation varchar(50), DNo int, foreign key(DNo) references DEPARTMENT(DNo));
+
+create table WORKS_ON (SSN int, PNo int, Hours int, foreign key(SSN) references EMPLOYEE(SSN), foreign key(PNo) references PROJECT(PNo));
+
+//Inserting values
+
+INSERT INTO EMPLOYEE VALUES (1001, "Jacob Scott", "Jayanagar", "M", 6370010, NULL, NULL), (1002, "Tim", "Jayanagar", "M", 7007011, NULL, NULL), (1003, "Jil", "Jayanagar", "F", 6370010, NULL, NULL), (1004, "Josh", "Jayanagar", "M", 6370010, NULL, NULL), (1005, "Jim", "Jayanagar", "M", 6370010, NULL, NULL), (1006, "Kate", "Jayanagar", "F", 6370010, NULL, NULL), (1007, "Joseph", "Jayanagar", "M", 6370010, NULL, NULL), (1008, "Jay", "Jayanagar", "M", 6370010, NULL, NULL), (1009, "Claire", "Jayanagar", "F", 6370010, NULL, NULL), (1010, "Jack", "Jayanagar", "M", 6370010, NULL, NULL), (1011, "Jack", "Jayanagar", "M", 6378236, NULL, NULL), (1012, "Timmy", "Jayanagar", "M", 637000, NULL, NULL);
+
+INSERT INTO DEPARTMENT VALUES (1, "Accounts", 1001, "2017-02-12"), (2, "Finance", 1003, "2017-02-10"), (3, "HR", 1003, "2017-03-23"), (4, "Admin", 1003, "2015-05-12"), (5, "Payroll", 1002, "2012-02-12"), (6, "Housekeeping", 1002, "2013-02-12"), (7, "Training", 1002, "2014-02-12"), (8, "PF", 1002, "2010-02-12");
+
+update EMPLOYEE set SuperSSN=NULL, DNo=1 where SSN=1001;
+update EMPLOYEE set SuperSSN=1001, DNo=7 where SSN=1002;
+update EMPLOYEE set SuperSSN=1001, DNo=5 where SSN=1003;
+update EMPLOYEE set SuperSSN=1002, DNo=5 where SSN=1004;
+update EMPLOYEE set SuperSSN=1001, DNo=5 where SSN=1005;
+update EMPLOYEE set SuperSSN=1001, DNo=2 where SSN=1006;
+update EMPLOYEE set SuperSSN=1001, DNo=3 where SSN=1007;
+update EMPLOYEE set SuperSSN=1003, DNo=4 where SSN=1008;
+update EMPLOYEE set SuperSSN=1006, DNo=6 where SSN=1009;
+update EMPLOYEE set SuperSSN=1005, DNo=1 where SSN=1010;
+update EMPLOYEE set SuperSSN=1002, DNo=1 where SSN=1011;
+update EMPLOYEE set SuperSSN=1001, DNo=1 where SSN=1012;
+
+INSERT INTO DLOCATION VALUES (1, "Bangalore"), (1, "Mumbai"), (1, "Pune"), (2, "Mumbai"), (3, "Chennai"), (4, "Mumbai"), (5, "Guwahati"), (6, "Mumbai"), (7, "Delhi"), (8, "Mumbai"), (8, "Pune");
+
+INSERT INTO PROJECT VALUES (10, "IOT", "Mumbai", 1), (11, "Adhoc", "Pune", 1), (12, "Mobile", "Bangalore", 2), (13, "Finacle", "Chennai", 3), (14, "Android", "Pune", 4), (15, "Java", "Mumbai", 5), (16, "Dot Net", "Pune", 5), (17, "c#", "Mumbai", 6), (18, "c++", "Delhi", 7), (19, "Python", "Delhi", 8);
+
+INSERT INTO WORKS_ON VALUES (1001, 11, 40), (1001, 15, 45), (1001, 16, 40), (1002, 10, 45), (1002, 11, 45), (1003, 11, 45), (1004, 19, 45), (1005, 18, 45);
+
+//Queries
+
+// 1. Make a list of all project numbers for projects that involve an employee whose last name is‘Scott’, either as a worker or as a manager of the department that controls the project.
+
+(select Pno from PROJECT P, DEPARTMENT D, EMPLOYEE E where P.Dno=D.Dno and E.SSN=D.MgrSSN and E.Name = 'Scott') UNION (select Pno from EMPLOYEE E, WORKS_ON W where E.SSN=W.SSN and E.Name like "%Scott");
+
++------+
+| Pno  |
++------+
+|   11 |
+|   15 |
+|   16 |
++------+
+
+// 2.Show the resulting salaries if every employee working on the ‘IoT’ project is given a 10 percent raise.
+
+select E.SSN, Salary*1.1 from EMPLOYEE E, WORKS_ON W,PROJECT P where E.SSN=W.SSN and W.PNo=P.PNo and PName = 'IOT';
+
++------+------------+
+| SSN  | Salary*1.1 |
++------+------------+
+| 1002 |  7707712.1 |
++------+------------+
+
+// 3. Find the sum of the salaries of all employees of the ‘Accounts’ department, as well as the maximum salary, the minimum salary, and the average salary in this department.
+
+select DName, MAX(Salary), MIN(Salary), AVG(Salary), SUM(Salary) from EMPLOYEE E, DEPARTMENT D where E.Dno=D.Dno group by D.DName HAVING D.DName='Accounts';
+
++----------+-------------+-------------+--------------+-------------+
+| DName    | MAX(Salary) | MIN(Salary) | AVG(Salary)  | SUM(Salary) |
++----------+-------------+-------------+--------------+-------------+
+| Accounts |     6378236 |      637000 | 4938814.0000 |    19755256 |
+
+// 4. Retrieve the name of each employee who works on all the projects controlled by departmentnumber 5 (use NOT EXISTS operator).
+
+select E.Name from EMPLOYEE E where NOT EXISTS (select PNo from PROJECT where DNo=5 and PNo NOT IN (select PNo from WORKS_ON W where W.SSN=E.SSN));
+
++-------------+
+| Name        |
++-------------+
+| Jacob Scott |
++-------------+
+
+// 5.For each department that has more than five employees, retrieve the department number andthe number of its employees who are making more than Rs. 6,00,000.
+
+select DNo, count(SSN) from EMPLOYEE where Salary>600000 and DNo in (select DNo from EMPLOYEE group by DNo having count(SSN)>5) group by DNo; 
+
