@@ -1,3 +1,5 @@
+MOVIE DATABASE
+
 //Creating Tables
 
 create table ACTOR(Act_id int primary key, Act_Name varchar(40), Act_gender char);
