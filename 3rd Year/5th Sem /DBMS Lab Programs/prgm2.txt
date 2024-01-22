@@ -1,0 +1,99 @@
+ORDER DATABASE
+
+//Creating table
+
+create table SALESMAN(Salesman_id int primary key, Name varchar(50), City varchar(50), Commission int);
+
+create table CUSTOMER(Customer_id int primary key, Cust_Name varchar(50), City varchar(50), Grade int, Salesman_id int, foreign key(Salesman_id) references SALESMAN(Salesman_id) on delete set null);
+
+create table ORDERS(Ord_No int primary key, Purchase_Amt int, Ord_Date date, Customer_id int, Salesman_id int, foreign key(Salesman_id) references SALESMAN(Salesman_id) on delete cascade, foreign key(Customer_id) references CUSTOMER(Customer_id) on delete cascade);
+
+//Inserting Values
+
+insert into SALESMAN values(1000, "Rahul", "Bangalore", 20),(2000, "Ankita", "Bangalore", 25),(3000, "Sharma", "Mysore", 30),(4000, "Anjali", "Delhi", 15),(5000, "Raj", "Hyderabad", 15);
+
+insert into CUSTOMER values(1, "Adya", "Bangalore", 100, 1000),(2, "Banu", "Mangalore", 300, 1000),(3, "Chethan", "Chennai", 400, 2000),(4, "Danish", "Bangalore", 200, 2000),(5, "Esha", "Bangalore", 400, 3000);
+
+insert into ORDERS values(201, 5000, "2020-06-02", 1, 1000),(202, 450, "2020-04-09", 1, 2000),(203, 1000, "2020-03-15", 3, 2000),(204, 3500, "2020-07-09", 4, 3000),(205, 550, "2020-05-05", 2, 2000);
+
+//Queries
+
+// 1. Count the customers with grades above Bangalore’s average.
+
+select count(*) from CUSTOMER where Grade > (select avg(Grade) from CUSTOMER where City="Bangalore");
+
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+
+// 2. Find the name and numbers of all salesman who had more than one customer.
+
+select Salesman_id,Name from SALESMAN where Salesman_id in(select Salesman_id from CUSTOMER group by Salesman_id having count(Customer_id) > 1);
+
++-------------+--------+
+| Salesman_id | Name   |
++-------------+--------+
+|        1000 | Rahul  |
+|        2000 | Ankita |
++-------------+--------+
+
+// 3. List all the salesman and indicate those who have and don’t have customers in their cities
+
+(select distinct S.Salesman_id,S.Name,C.Cust_Name from CUSTOMER C, SALESMAN S where C.Salesman_id=S.Salesman_id and C.City=S.City) UNION (select distinct S.Salesman_id,S.Name,C.Cust_Name from CUSTOMER C, SALESMAN S where C.Salesman_id=S.Salesman_id and C.City!=S.City) UNION (select distinct S.Salesman_id,S.Name,"NO CUSTOMER" from SALESMAN S where Salesman_id NOT IN(select Salesman_id from CUSTOMER));
+
++-------------+--------+-------------+
+| Salesman_id | Name   | Cust_Name   |
++-------------+--------+-------------+
+|        1000 | Rahul  | Adya        |
+|        2000 | Ankita | Danish      |
+|        1000 | Rahul  | Banu        |
+|        2000 | Ankita | Chethan     |
+|        3000 | Sharma | Esha        |
+|        4000 | Anjali | NO CUSTOMER |
+|        5000 | Raj    | NO CUSTOMER |
++-------------+--------+-------------+
+
+// 4. Create a view that finds the salesman who has the customer with the highest order of a day.
+
+Create view Highest_Order AS (select Salesman_id,Purchase_Amt,Ord_Date from ORDERS where (Ord_Date,Purchase_Amt) IN (select Ord_Date,max(Purchase_Amt) from ORDERS group by Ord_Date));
+Query OK, 0 rows affected (0.01 sec)
+
+select * from Highest_Order;
+
++-------------+--------------+------------+
+| Salesman_id | Purchase_Amt | Ord_Date   |
++-------------+--------------+------------+
+|        1000 |         5000 | 2020-06-02 |
+|        2000 |          450 | 2020-04-09 |
+|        2000 |         1000 | 2020-03-15 |
+|        3000 |         3500 | 2020-07-09 |
+|        2000 |          550 | 2020-05-05 |
++-------------+--------------+------------+
+
+// 5. Demonstrate the DELETE operation by removing salesman with id 1000. All his orders must also be deleted.
+
+delete from SALESMAN where Salesman_id = 1000;
+Query OK, 1 row affected (0.03 sec)
+
+select * from SALESMAN;
++-------------+--------+-----------+------------+
+| Salesman_id | Name   | City      | Commission |
++-------------+--------+-----------+------------+
+|        2000 | Ankita | Bangalore |         25 |
+|        3000 | Sharma | Mysore    |         30 |
+|        4000 | Anjali | Delhi     |         15 |
+|        5000 | Raj    | Hyderabad |         15 |
++-------------+--------+-----------+------------+
+4 rows in set (0.00 sec)
+
+select * from ORDERS;
++--------+--------------+------------+-------------+-------------+
+| Ord_No | Purchase_Amt | Ord_Date   | Customer_id | Salesman_id |
++--------+--------------+------------+-------------+-------------+
+|    202 |          450 | 2020-04-09 |           1 |        2000 |
+|    203 |         1000 | 2020-03-15 |           3 |        2000 |
+|    204 |         3500 | 2020-07-09 |           4 |        3000 |
+|    205 |          550 | 2020-05-05 |           2 |        2000 |
++--------+--------------+------------+-------------+-------------+
