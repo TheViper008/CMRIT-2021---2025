@@ -63,7 +63,7 @@ select E.SSN, Salary*1.1 from EMPLOYEE E, WORKS_ON W,PROJECT P where E.SSN=W.SSN
 
 // 3. Find the sum of the salaries of all employees of the ‘Accounts’ department, as well as the maximum salary, the minimum salary, and the average salary in this department.
 
-select DName, MAX(Salary), MIN(Salary), AVG(Salary), SUM(Salary) from EMPLOYEE E, DEPARTMENT D where E.Dno=D.Dno group by D.DName HAVING D.DName='Accounts';
+select DName, MAX(Salary), MIN(Salary), AVG(Salary), SUM(Salary) from EMPLOYEE E, DEPARTMENT D where E.Dno=D.Dno group by D.DName HAVING DName='Accounts';
 
 +----------+-------------+-------------+--------------+-------------+
 | DName    | MAX(Salary) | MIN(Salary) | AVG(Salary)  | SUM(Salary) |
