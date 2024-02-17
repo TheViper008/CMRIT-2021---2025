@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <title>Program 9</title>
+        <script src="angular.min.js"></script>
+    </head>
+    <body ng-app = "searchEmp">
+        <h1>Search for Employees and Salary</h1>
+        <div ng-controller = searchEmpCtrlr>
+            Enter name: <input type="text" ng-model = "search_name"/>
+            Enter Salary: <input type="text" ng-model="search_salary"/>
+
+            <input type="button" value="Clear filters" ng-click="clear_filters()"/>
+            <h3>List of Employees</h3>
+            <table border = "1">
+                <tr>
+                    <th>Slno</th>
+                    <th>Name</th>
+                    <th>Salary</th>
+                </tr>
+                <tr ng-repeat="empl in employees | filter:{name:search_name, salary:search_salary}">
+                <td>{{$index+1}}</td>
+                <td>{{empl.name}}</td>
+                <td>{{empl.salary}}</td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
+<script>
+    var s =angular.module("searchEmp",[]);
+    s.controller("searchEmpCtrlr", function($scope) {
+
+        $scope.employees = 
+        [
+            {"name":"Ananth", "salary":18000 },
+            {"name":"Varun", "salary":18000 },
+            {"name":"Vaishnav", "salary":12000 },
+            {"name":"Shubangham", "salary":20000 },
+            {"name":"Uday", "salary":21000 },
+            {"name":"Mohan", "salary":27000 },
+            {"name":"Modi", "salary":24000 },
+            {"name":"Chitra", "salary":21000 },
+            {"name":"Akshay", "salary":7500 },
+            {"name":"Chirag", "salary":8000 },
+            {"name":"Chidananda", "salary":11000 },
+        ];
+
+        $scope.clear_filters = function()
+        {
+            $scope.search_name = ""
+            $scope.search_salary = ""
+        }
+    });
+</script>
