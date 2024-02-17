@@ -20,7 +20,7 @@
                 Enter password : <input type="password" ng-model="password" name="pass" ng-minlength="5" ng-maxlength="8" required>
                 <span class="error-message" ng-show="loginForm.pass.$error.minlength">Password should have minimum 5 characters</span>
                 <span class="error-message" ng-show="loginForm.pass.$error.maxlength">Password should have maximum 8 characters</span><br>
-                <input type="button" value="Login" ng-disabled="loginForm.$invalid" ng-click="login()">
+                <input type="button" value="Login" id="loginButton" ng-disabled="loginForm.$invalid" ng-click="login()">
             </form>
         </div>
     </body>
