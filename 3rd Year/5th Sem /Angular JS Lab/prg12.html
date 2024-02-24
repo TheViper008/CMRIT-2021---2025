@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Program 12</title>
+    </head>
+    <script src="angular.min.js"></script>
+    <body ng-app="disp">
+        <h2>Display Date in Different Formats</h2>
+        <div ng-controller="format">
+            The date and time now is : {{todaysDate}} <br />
+            Short date : {{ todaysDate | date:'short'}} <br />
+            Long date: {{ todaysDate | date:'fullDate' }}<br />
+            Medium date : {{ todaysDate | date:'medium'}} <br />
+
+        </div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    let dateformat = angular.module('disp', []);
+    dateformat.controller("format", function($scope, $filter) {
+        $scope.todaysDate = new Date();
+    });
+</script>
