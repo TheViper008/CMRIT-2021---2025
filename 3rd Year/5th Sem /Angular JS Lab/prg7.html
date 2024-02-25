@@ -30,13 +30,13 @@
     c1.controller("crud",function($scope){
         $scope.users = [];
         $scope.create = function(){
-            if($scope.new_name == null)
+            if($scope.new_name == "")
             {
                 alert('Please enter name');
                 document.getElementById("name").focus();
                 return false;
             }
-            else if($scope.new_email == null)
+            else if($scope.new_email == "")
             {
                 alert('Please enter email');
                 document.getElementById("email").focus();
