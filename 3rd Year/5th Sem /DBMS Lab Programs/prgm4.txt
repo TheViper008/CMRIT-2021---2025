@@ -1,0 +1,60 @@
+//Queries
+
+//1. List all the student details studying in fourth semester ‘C’ section. 
+
+select S.* from STUDENT S, SEMSEC SS, CLASS C where S.USN=C.USN and SS.SSID=C.SSID and SS.Sem=4 and SS.Sec='C';
+
++------------+--------+--------------+-----------+--------+
+| USN        | SName  | Address      | Phone     | Gender |
++------------+--------+--------------+-----------+--------+
+| 1bi15cs104 | Miller | 4 whitefield | 987456321 | M      |
+| 1bi15cs105 | Kate   | 3 jp nagar   | 987456321 | F      |
+| 1bi15cs106 | Jade   | 9 jayanagar  | 987456321 | F      |
++------------+--------+--------------+-----------+--------+
+
+//2. Compute the total number of male and female students in each semester and in each section.
+
+select Sem,Sec,Gender,COUNT(Gender) from STUDENT NATURAL JOIN CLASS NATURAL JOIN SEMSEC group by Sem,Sec,Gender;
+
++------+------+--------+---------------+
+| Sem  | Sec  | Gender | COUNT(Gender) |
++------+------+--------+---------------+
+|    2 | A    | F      |             1 |
+|    4 | B    | F      |             1 |
+|    6 | C    | M      |             1 |
+|    8 | A    | F      |             1 |
+|    8 | B    | M      |             1 |
+|    8 | C    | M      |             1 |
+|    4 | C    | M      |             1 |
+|    4 | C    | F      |             2 |
++------+------+--------+---------------+
+
+//3. Create a view of Test1 marks of student USN ‘1BI15CS101’ in all subjects.
+
+create view TEST1_1BI15CS101 as select USN,Subcode,test1 from IAMARKS where USN='1bi15cs101'; 
+
++------------+---------+-------+
+| USN        | Subcode | test1 |
++------------+---------+-------+
+| 1bi15cs101 | 15cs41  |    13 |
+| 1bi15cs101 | 15cs42  |    18 |
++------------+---------+-------+
+
+//4.Calculate the FinalIA (average of best two test marks) and update the corresponding table for all students.
+
+update IAMARKS set FINALIA=(test1+test2+test3-LEAST(test1,test2,test3))/2;
+
++------------+---------+------+-------+-------+-------+---------+
+| USN        | Subcode | SSID | test1 | test2 | test3 | finalia |
++------------+---------+------+-------+-------+-------+---------+
+| 1bi14cs101 | 16cs22  |  106 |     6 |     5 |    10 |       8 |
+| 1bi14cs102 | 14cs62  |  107 |    14 |    15 |    16 |      16 |
+| 1bi15cs101 | 15cs41  |  104 |    13 |    20 |    20 |      20 |
+| 1bi15cs101 | 15cs42  |  103 |    18 |    20 |    20 |      20 |
+| 1bi15cs102 | 15cs41  |  101 |    13 |    14 |    14 |      14 |
+| 1bi16cs109 | 13cs82  |  102 |    20 |    20 |    20 |      20 |
++------------+---------+------+-------+-------+-------+---------+
+
+//5.
+
+(select I.USN,SUBCODE,"OUTSTANDING" as CATEGORY from IAMARKS I, CLASS C, SEMSEC SS where I.USN=C.USN and C.SSID=SS.SSID and finalia between 17 and 20 and SEM=8 and SEC in('A','B','C','D')) UNION (select I.USN,SUBCODE,"AVERAGE" as CATEGORY from IAMARKS I, CLASS C, SEMSEC SS where I.USN=C.USN and C.SSID=SS.SSID and finalia between 12 and 16 and SEM=8 and SEC in('A','B','C','D')) UNION (select I.USN,SUBCODE,"WEAK" as CATEGORY from IAMARKS I, CLASS C, SEMSEC SS where I.USN=C.USN and C.SSID=SS.SSID and finalia < 12 and SEM=8 and SEC in('A','B','C','D'));
