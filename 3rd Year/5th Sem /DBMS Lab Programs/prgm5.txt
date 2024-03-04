@@ -1,0 +1,57 @@
+//Queries
+
+//1. Retrieve details of all books in the library – id, title, name of publisher, authors, number of copies in each Programme, etc.
+
+select C.Programme_id, B.Book_id, B.Title, B.Publisher_Name, A.Author_Name, C.Copies from BOOK B, BOOK_AUTHORS A, BOOK_COPIES C where B.Book_id=A.Book_id and B.Book_id=C.Book_id order by C.Programme_id;
+
++--------------+---------+--------------------------+----------------+-----------------+--------+
+| Programme_id | Book_id | Title                    | Publisher_Name | Author_Name     | Copies |
++--------------+---------+--------------------------+----------------+-----------------+--------+
+|            1 |    1001 | software engineering     | pearson        | Samuel Simons   |     50 |
+|            2 |    1001 | software engineering     | pearson        | Samuel Simons   |     10 |
+|            3 |    1002 | digital image processing | tata           | Morris Mano     |     80 |
+|            3 |    1005 | dbms                     | cambridge      | Chris Hemsworth |     60 |
+|            5 |    1003 | computer architecture    | dreamworks     | G Navathe       |     90 |
++--------------+---------+--------------------------+----------------+-----------------+--------+
+
+//2. Get the particulars of borrowers who have borrowed more than 3 books, but from Jan 2017 to Jun 2017.
+
+select Card_No from BOOK_LENDING where Date_Out>='2017-01-01' and Date_Out<='2017-06-30' group by Card_No having count(*)>3;
+
++---------+
+| Card_No |
++---------+
+|     501 |
+|     701 |
++---------+
+
+//3.Delete a book in BOOK table. Update the contents of other tables to reflect this data manipulation operation
+
+delete from BOOK where Book_id=1005;
+
+//4. Partition the BOOK table based on year of publication. Demonstrate its working with a simple query.
+
+create view V_PUB as select Pub_Year from BOOK;
+
++----------+
+| Pub_Year |
++----------+
+|     1998 |
+|     1998 |
+|     1998 |
+|     1998 |
++----------+
+
+//5. Create a view of all books and the number of copies that are currently available in the Library.
+
+create view V_BOOKS as select B.Book_id, B.Title, C.Copies from BOOK B, BOOK_COPIES C, LIBRARY_PROGRAMME L where B.Book_id=C.Book_id and L.Programme_id=C.Programme_id; 
+
++---------+--------------------------+--------+
+| Book_id | Title                    | Copies |
++---------+--------------------------+--------+
+|    1001 | software engineering     |     50 |
+|    1001 | software engineering     |     10 |
+|    1002 | digital image processing |     80 |
+|    1003 | computer architecture    |     90 |
++---------+--------------------------+--------+
+
