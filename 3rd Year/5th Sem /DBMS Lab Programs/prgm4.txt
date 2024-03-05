@@ -55,6 +55,24 @@ update IAMARKS set FINALIA=(test1+test2+test3-LEAST(test1,test2,test3))/2;
 | 1bi16cs109 | 13cs82  |  102 |    20 |    20 |    20 |      20 |
 +------------+---------+------+-------+-------+-------+---------+
 
+//PLSQL code
+
+delimiter #
+create procedure CalFA()
+BEGIN
+update IAMARKS
+set FINALIA= (CASE when GREATEST (TEST1, TEST2)! = GREATEST (TEST1, TEST3)
+then GREATEST (TEST1, TEST2) + GREATEST (TEST1, TEST3)
+else GREATEST (TEST1, TEST2) + GREATEST (TEST2, TEST3)
+END) / 2
+where FINALIA is NULL;
+END #
+
+delimiter ;
+call CalFA();
+
+select*from IAMARKS;
+
 //5.
 
 (select I.USN,SUBCODE,"OUTSTANDING" as CATEGORY from IAMARKS I, CLASS C, SEMSEC SS where I.USN=C.USN and C.SSID=SS.SSID and finalia between 17 and 20 and SEM=8 and SEC in('A','B','C','D')) UNION (select I.USN,SUBCODE,"AVERAGE" as CATEGORY from IAMARKS I, CLASS C, SEMSEC SS where I.USN=C.USN and C.SSID=SS.SSID and finalia between 12 and 16 and SEM=8 and SEC in('A','B','C','D')) UNION (select I.USN,SUBCODE,"WEAK" as CATEGORY from IAMARKS I, CLASS C, SEMSEC SS where I.USN=C.USN and C.SSID=SS.SSID and finalia < 12 and SEM=8 and SEC in('A','B','C','D'));
