@@ -1,0 +1,8 @@
+awk instructions:
+1.  vi prgm_name.tcl
+2.  :x [enter]
+3.  awk -f prgm_name.awk prgm_name.tr
+
+
+tcl instructions:
+ns prgm_name.tcl
