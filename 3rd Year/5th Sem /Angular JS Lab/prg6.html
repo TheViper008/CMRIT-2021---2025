@@ -1,81 +1,70 @@
 <html>
 
 <head>
-    <script src="angular.min.js"></script>
-    <title>To-Do List</title>
+    <title>Program 6</title>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
-<body ng-app="myApp6">
-    <div ng-controller="show">
-        <h3>Enter your today plan</h3>
-        <input type="text" ng-model="newtodo">
-        <input type="button" value="Add" ng-click="add()">
-        <h2>TO-DO LIST</h2>
+<body ng-app="Prog6">
+    <h2>To-Do Tasklist</h2>
+    <div ng-controller="display">
+        <input placeholder="Enter task to add" id="tsk" type="text" ng-model="task_name">
+        <input type="button" value="Add Task" ng-click="add_task()"><br /><br />
         <ul>
-            <li ng-repeat="list in todo">
-                <span ng-show="!list.EDITING">{{list.TITLE}}</span>
-                <input ng-show="list.EDITING" ng-model="list.TITLE" ng-blur="turnOffEditing(list)">
-                <input type="button" value="Edit" ng-click="edit(list)">
-                <input type="button" value="Delete" ng-click="del(list)">
+            <li ng-repeat="task in tasks">
+                <span ng-show="!task.EDITING">{{task.TITLE}}</span>
+                <input ng-show="task.EDITING" ng-model="task.TITLE" ng-blur="turnOffEditing(task)">
+                <input type="button" value="Edit" ng-click="edit_task(task)">
+                <input type="button" value="Delete" ng-click="delete_task(task)">
             </li>
         </ul>
     </div>
-
 </body>
+
+</html>
+
 <script>
-    var v = angular.module("myApp6", [])
-    v.controller('show', function ($scope) {
+    var c1 = angular.module("Prog6", []);
+    c1.controller("display", function ($scope) {
+        $scope.tasks = [
+            { "TITLE": "Water plants", "COMPLETED": true, "EDITING": false },
+            { "TITLE": "Have coffee", "COMPLETED": false, "EDITING": false }
+        ];
 
-        $scope.todo = [
-            {
-                "TITLE": "Brush my teeth",
-                "COMPLETED": true,
-                "EDITING": false
-            },
-            {
-                "TITLE": "Eat breakfast",
-                "COMPLETED": false,
-                "EDITING": false
-            }
-        ]
-        $scope.add = () => {
-            if ($scope.newtodo && $scope.todo.indexOf($scope.newtodo) == -1) {
-                var list = {
-
-                    "TITLE": $scope.newtodo,
+        $scope.add_task = function () {
+            if ($scope.task_name && $scope.tasks.indexOf($scope.task_name) == -1) {
+                var t = {
+                    "TITLE": $scope.task_name,
                     "COMPLETED": false,
                     "EDITING": false
                 }
-                $scope.todo.push(list)
-                $scope.newtodo = ""
+                $scope.tasks.push(t)
             }
- 
             else {
-                alert("Please Enter some value")
-            }
-        }
-        $scope.del = () => {
-            var cnf = confirm("Do you want to delete the record")
-         
-            if (cnf == true) {
-                var remItem = $scope.todo.indexOf($scope.item);
-
-                $scope.todo.splice(remItem, 1);
-            }
-
-        }
-
-        $scope.edit = (list) => {
-            list.EDITING = (list) => {
-                list.EDITING = true;
-            }
-            $scope.turnOffEditing = (list) => {
-                list.EDITING = false;
+                alert("Please enter task to add")
+                document.getElementById("tsk").focus();
+                return false
             }
         }
 
+        $scope.edit_task = function (task) {
+            task.EDITING = true;
+        }
+        $scope.turnOffEditing = function (task) {
+            task.EDITING = false;
+        }
 
+        $scope.delete_task = function (task) {
+
+            var doublecheck = confirm("Are you sure you want to delete the task?");
+
+            if (doublecheck == true) {
+                var index = $scope.tasks.indexOf(task)
+                $scope.tasks.splice(index, 1)
+            }
+            else {
+                alert("You chose to not remove this task!")
+            }
+        }
     })
 </script>
-
-</html>
