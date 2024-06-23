@@ -1,0 +1,12 @@
+Create a virtual envoronment -> python -m venv djenv
+
+Activate virtual environment -> source djenv/bin/activate
+
+Install django -> pip install django
+                  django-admin version
+
+Create project -> django-admin startproject project_name
+                  cd project_name
+                  python manage.py runserver
+
+Create application -> python manage.py startapp appname
