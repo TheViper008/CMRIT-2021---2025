@@ -1,0 +1,25 @@
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py shell
+
+>>> from student.models import *
+>>> stud1 = Student(student_usn='1CR21CS001', student_name='Ann', student_sem=6)
+>>> stud2 = Student(student_usn='1CR21CS002', student_name='Ben', student_sem=6)
+>>> stud3 = Student(student_usn='1CR21CS003', student_name='Harry', student_sem=6)
+>>> stud4 = Student(student_usn='1CR21CS004', student_name='Jack', student_sem=6)
+>>> studList = [stud1,stud2,stud3,stud4]
+>>> for s in studList:
+...     s.save()
+...
+
+>>> course1 = Course(course_code='21CS61', course_name='Software Engg', course_credits=3)
+>>> course2 = Course(course_code='21CS62', course_name='Full Stack Dev', course_credits=4)
+>>>
+>>> course2 = Course(course_code='21CS62', course_name='Full Stack Dev', course_credits=4)
+>>> course2 = Course(course_code='21CS62', course_name='Full Stack Dev', course_credits=4)
+>>> course3 = Course(course_code='21CS63', course_name='Computer Graphics', course_credits=4)
+>>> courseList = [course1,course2,course3]
+>>> for c in courseList:
+...     c.save()
+...
