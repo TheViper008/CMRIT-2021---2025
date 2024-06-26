@@ -7,6 +7,9 @@ class Course(models.Model):
     course_name = models.CharField(max_length=70)
     course_credits = models.IntegerField()
 
+    def __str__(self):
+        return self.course_code + "("+ self.course_name + ")"
+
 class Student(models.Model):
     student_usn = models.CharField(max_length=10)
     student_name = models.CharField(max_length=80)
