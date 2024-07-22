@@ -1,0 +1,14 @@
+<html>
+    <h1>Submit your project details</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ detform.as_p }}
+        <table>
+            <tr>
+                <td><input type="submit" value="Add" /></td>
+            </tr>
+        </table>
+    </form>
+</html>
