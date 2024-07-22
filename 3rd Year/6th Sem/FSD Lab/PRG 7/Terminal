@@ -1,0 +1,14 @@
+python manage.py makemigrations
+python manage.py migrate
+
+pytohn manage.py shell
+
+from student.models import Student
+
+student1 = Student(student_usn = "1CR21CS203", student_name = "Ananth", student_sem = 6)
+student1.save()
+
+student2 = Student(student_usn = "1CR21CS204", student_name = "Vaishnav", student_sem = 6)
+student2.save()
+
+exit()
