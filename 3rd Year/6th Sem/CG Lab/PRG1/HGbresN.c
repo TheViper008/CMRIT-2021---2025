@@ -24,10 +24,10 @@ void bresenhams(int x1, int y11, int x2, int y2) {
     dy = abs(y2 - y11);
     dx = abs(x2 - x1);
 
-    if (x2 < x1) {
-        incx = -1;
-        incy = -1;
-    }
+    if (x2 < x1) 
+		incx = -1;
+	if (y2 < y11)
+		incy = -1;
 
     if ((dy / dx) < 1) {
         plotpoint(x1, y11);
