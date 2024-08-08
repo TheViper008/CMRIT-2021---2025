@@ -104,7 +104,7 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE);
     glutInitWindowSize(500, 500);
-    glutCreateWindow("Line Drawing Algorithm");
+    glutCreateWindow("Transformations");
     myinit();
     glutDisplayFunc(display);
     glutMainLoop();
